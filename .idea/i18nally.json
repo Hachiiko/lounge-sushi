@@ -1,0 +1,49 @@
+{
+  "version" : "1.2",
+  "profiles" : [ {
+    "id" : "a713c559-f90b-4582-9f45-6de44fce9f21",
+    "name" : "Symfony (PHP, TWIG)",
+    "keyNamingPattern" : "SNAKE_CASE_PATTERN",
+    "sink" : {
+      "id" : "3bbbc4a9-77d1-429c-a326-41e3b13fc545",
+      "type" : "namespaced",
+      "translationsDirectory" : "$PROJECT_DIR$/vendor/symfony/var-dumper/Resources",
+      "fileType" : "javascript",
+      "defaultLocale" : "js",
+      "namespaces" : [ "htmlDescriptor" ],
+      "outputFilenameTemplate" : "%locale%/%namespace%.js",
+      "nestingType" : "DISABLED",
+      "placeholderFormatterName" : "SYMFONY_REPLACEMENT"
+    },
+    "sources" : [ {
+      "id" : "3dbc673d-d318-4f32-81f9-19c428ba30f0",
+      "type" : "php",
+      "scopeName" : "i18n Ally: Symfony/PHP source",
+      "scopePattern" : "file[lounge-sushi]:src//*&&!file[lounge-sushi]:src/Controller/Tests//*&&!file[lounge-sushi]:src/Controller/Resources//*&&!file[lounge-sushi]:src/Controller/DataFixtures//*",
+      "defaultReplacementTemplate" : "$this->translator->trans('%key%', %map%, '%namespace%')",
+      "recognizedReplacementTemplates" : [ ],
+      "skipDefaultNamespace" : true,
+      "sprintfMode" : false
+    }, {
+      "id" : "5959b080-0ef2-45ec-b556-07801b65e2e7",
+      "type" : "twig",
+      "scopeName" : "i18n Ally: Symfony/Twig templates",
+      "scopePattern" : "file[lounge-sushi]:src/Controller/Resources/views//*",
+      "defaultReplacementTemplate" : "trans(%map%, '%namespace%')",
+      "attributeReplacementTemplate" : "",
+      "inlineTagsReplacementTemplate" : "trans(%map%, '%namespace%')|raw",
+      "recognizedReplacementTemplates" : [ ],
+      "inlineTagNames" : [ "a", "abbr", "acronym", "b", "bdi", "bdo", "big", "br", "cite", "code", "data", "del", "dfn", "em", "i", "img", "input", "ins", "kbd", "label", "mark", "meter", "output", "progress", "q", "ruby", "s", "samp", "slot", "small", "span", "strong", "sub", "sup", "time", "u", "tt", "var", "wbr" ],
+      "translatableAttributeNames" : [ "title", "alt", "placeholder", "label", "aria-label" ],
+      "skipDefaultNamespace" : true
+    } ]
+  } ],
+  "ignores" : {
+    "valuesInProject" : [ "use strict", "", "Nigiri łosoś 4 szt., Hoso ogórek 8 szt., Hoso łosoś wędzony 8 szt., Futo łosoś wędzony 12 szt. + GRATIS: Star crab 8 szt., Futo Butter Gold 6 szt. " ],
+    "valuesInFile" : { },
+    "filesInProject" : [ ],
+    "unignoredFunctionNames" : [ ],
+    "unignoredFunctionArguments" : { },
+    "ignoredArrayKeys" : [ "template", "date", "dateFormat", "el", "query", "type", "sql", "layout", "component", "condition", "name", "selector", "id", "class", "key", "middleware" ]
+  }
+}
