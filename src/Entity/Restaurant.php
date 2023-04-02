@@ -45,11 +45,21 @@ class Restaurant
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'ownedRestaurants')]
+    #[ORM\JoinTable(name: 'restaurant_owner')]
+    private Collection $owners;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'workplaceRestaurants')]
+    #[ORM\JoinTable(name: 'restaurant_employee')]
+    private Collection $employees;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->tables = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->owners = new ArrayCollection();
+        $this->employees = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -239,5 +249,53 @@ class Restaurant
     public function getLogoWithSlug(): ?string
     {
         return $this->slug . '/' . $this->logo;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getOwners(): Collection
+    {
+        return $this->owners;
+    }
+
+    public function addOwner(User $owner): self
+    {
+        if (!$this->owners->contains($owner)) {
+            $this->owners->add($owner);
+        }
+
+        return $this;
+    }
+
+    public function removeOwner(User $owner): self
+    {
+        $this->owners->removeElement($owner);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getEmployees(): Collection
+    {
+        return $this->employees;
+    }
+
+    public function addEmployee(User $employee): self
+    {
+        if (!$this->employees->contains($employee)) {
+            $this->employees->add($employee);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployee(User $employee): self
+    {
+        $this->employees->removeElement($employee);
+
+        return $this;
     }
 }
