@@ -45,12 +45,10 @@ class Restaurant
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'ownedRestaurants')]
-    #[ORM\JoinTable(name: 'restaurant_owner')]
-    private Collection $owners;
+    #[ORM\OneToOne(inversedBy: 'ownedRestaurant', cascade: ['persist', 'remove'])]
+    private ?User $owner = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'workplaceRestaurants')]
-    #[ORM\JoinTable(name: 'restaurant_employee')]
+    #[ORM\OneToMany(mappedBy: 'workplaceRestaurant', targetEntity: User::class)]
     private Collection $employees;
 
     public function __construct()
@@ -295,6 +293,18 @@ class Restaurant
     public function removeEmployee(User $employee): self
     {
         $this->employees->removeElement($employee);
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

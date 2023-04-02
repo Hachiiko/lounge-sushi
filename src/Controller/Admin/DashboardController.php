@@ -8,6 +8,7 @@ use App\Entity\Reservation;
 use App\Entity\Restaurant;
 use App\Entity\Table;
 use App\Entity\Task;
+use App\Entity\User;
 use App\Repository\ReservationRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -96,7 +97,7 @@ class DashboardController extends AbstractDashboardController
     {
         return [
             MenuItem::linkToDashboard('Kokpit', 'fa-solid fa-chart-line'),
-            MenuItem::linkToCrud('Restauracje', 'fa-solid fa-shop', Restaurant::class),
+            MenuItem::linkToCrud('Restauracje', 'fa-solid fa-shop', Restaurant::class)->setPermission(User::ROLE_ADMIN),
             MenuItem::linkToCrud('Stoliki', 'fa-solid fa-chair', Table::class),
             MenuItem::linkToCrud('Harmonogram rezerwacji', 'fa-solid fa-calendar-days', Reservation::class),
             MenuItem::linkToCrud('Bank informacji', 'fa-regular fa-rectangle-list', Article::class),

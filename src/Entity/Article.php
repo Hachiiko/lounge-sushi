@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -28,6 +29,7 @@ class Article
     private ?Restaurant $restaurant = null;
 
     #[ORM\Column(length: 255)]
+    #[Slug(fields: ['title'])]
     private ?string $slug = null;
 
     public function getId(): ?int

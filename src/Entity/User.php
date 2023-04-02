@@ -33,17 +33,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\ManyToMany(targetEntity: Restaurant::class, mappedBy: 'owners')]
-    private Collection $ownedRestaurants;
-
-    #[ORM\ManyToMany(targetEntity: Restaurant::class, mappedBy: 'employees')]
-    private Collection $workplaceRestaurants;
-
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
+
+    #[ORM\OneToOne(mappedBy: 'owner', cascade: ['persist', 'remove'])]
+    private ?Restaurant $ownedRestaurant = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?Restaurant $workplaceRestaurant = null;
 
     public function __construct()
     {
@@ -126,60 +126,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Restaurant>
-     */
-    public function getOwnedRestaurants(): Collection
-    {
-        return $this->ownedRestaurants;
-    }
-
-    public function addOwnedRestaurant(Restaurant $ownedRestaurant): self
-    {
-        if (!$this->ownedRestaurants->contains($ownedRestaurant)) {
-            $this->ownedRestaurants->add($ownedRestaurant);
-            $ownedRestaurant->addOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOwnedRestaurant(Restaurant $ownedRestaurant): self
-    {
-        if ($this->ownedRestaurants->removeElement($ownedRestaurant)) {
-            $ownedRestaurant->removeOwner($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Restaurant>
-     */
-    public function getWorkplaceRestaurants(): Collection
-    {
-        return $this->workplaceRestaurants;
-    }
-
-    public function addWorkplaceRestaurant(Restaurant $workplaceRestaurant): self
-    {
-        if (!$this->workplaceRestaurants->contains($workplaceRestaurant)) {
-            $this->workplaceRestaurants->add($workplaceRestaurant);
-            $workplaceRestaurant->addEmployee($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWorkplaceRestaurant(Restaurant $workplaceRestaurant): self
-    {
-        if ($this->workplaceRestaurants->removeElement($workplaceRestaurant)) {
-            $workplaceRestaurant->removeEmployee($this);
-        }
-
-        return $this;
-    }
-
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -200,6 +146,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getOwnedRestaurant(): ?Restaurant
+    {
+        return $this->ownedRestaurant;
+    }
+
+    public function setOwnedRestaurant(Restaurant $ownedRestaurant): self
+    {
+        // set the owning side of the relation if necessary
+        if ($ownedRestaurant->getOwner() !== $this) {
+            $ownedRestaurant->setOwner($this);
+        }
+
+        $this->ownedRestaurant = $ownedRestaurant;
+
+        return $this;
+    }
+
+    public function getWorkplaceRestaurant(): ?Restaurant
+    {
+        return $this->workplaceRestaurant;
+    }
+
+    public function setWorkplaceRestaurant(?Restaurant $workplaceRestaurant): self
+    {
+        $this->workplaceRestaurant = $workplaceRestaurant;
 
         return $this;
     }

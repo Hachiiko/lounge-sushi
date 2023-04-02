@@ -63,7 +63,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 ->setRoles([User::ROLE_OWNER])
             ;
 
-            $restaurant->addOwner($owner);
+            $owner->setOwnedRestaurant($restaurant);
 
             for ($i = 1; $i <= 5; $i++) {
                 $employee = (new User())
@@ -74,7 +74,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                     ->setRoles([User::ROLE_EMPLOYEE])
                 ;
 
-                $restaurant->addEmployee($employee);
+                $employee->setWorkplaceRestaurant($restaurant);
 
                 $manager->persist($employee);
             }
