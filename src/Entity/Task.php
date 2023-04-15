@@ -22,6 +22,10 @@ class Task
     #[ORM\Column]
     private bool $done = false;
 
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Restaurant $restaurant = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,5 +70,17 @@ class Task
     public function toggle(): void
     {
         $this->setDone(!$this->isDone());
+    }
+
+    public function getRestaurant(): ?Restaurant
+    {
+        return $this->restaurant;
+    }
+
+    public function setRestaurant(?Restaurant $restaurant): self
+    {
+        $this->restaurant = $restaurant;
+
+        return $this;
     }
 }

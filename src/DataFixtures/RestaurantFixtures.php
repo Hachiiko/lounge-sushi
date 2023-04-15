@@ -13,6 +13,7 @@ class RestaurantFixtures extends Fixture
     private array $restaurantsData = [
         [
             'name' => 'Yume Sushi',
+            'description' => 'Sushi z dowozem na terenie Warszawy i najbliższych okolic. Staramy się, aby każdy mógł znaleźć tutaj coś dla siebie.',
             'slug' => 'yume-sushi',
             'address' => 'Warszawska 58C',
             'postcode' => '02-496',
@@ -36,6 +37,7 @@ class RestaurantFixtures extends Fixture
         foreach ($this->restaurantsData as $restaurantData) {
             $restaurant = (new Restaurant)
                 ->setName($restaurantData['name'])
+                ->setDescription($restaurantData['description'])
                 ->setSlug($restaurantData['slug'])
                 ->setAddress($restaurantData['address'])
                 ->setPostcode($restaurantData['postcode'])

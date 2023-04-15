@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\RestaurantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 
 #[ORM\Entity(repositoryClass: RestaurantRepository::class)]
 class Restaurant
@@ -31,6 +33,7 @@ class Restaurant
     private Collection $products;
 
     #[ORM\Column(length: 255)]
+    #[Slug(fields: ['name'])]
     private ?string $slug = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -51,13 +54,19 @@ class Restaurant
     #[ORM\OneToMany(mappedBy: 'workplaceRestaurant', targetEntity: User::class)]
     private Collection $employees;
 
+    #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: Task::class, orphanRemoval: true)]
+    private Collection $tasks;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->tables = new ArrayCollection();
         $this->articles = new ArrayCollection();
-        $this->owners = new ArrayCollection();
         $this->employees = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -252,30 +261,6 @@ class Restaurant
     /**
      * @return Collection<int, User>
      */
-    public function getOwners(): Collection
-    {
-        return $this->owners;
-    }
-
-    public function addOwner(User $owner): self
-    {
-        if (!$this->owners->contains($owner)) {
-            $this->owners->add($owner);
-        }
-
-        return $this;
-    }
-
-    public function removeOwner(User $owner): self
-    {
-        $this->owners->removeElement($owner);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
     public function getEmployees(): Collection
     {
         return $this->employees;
@@ -305,6 +290,48 @@ class Restaurant
     public function setOwner(User $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setRestaurant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): self
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getRestaurant() === $this) {
+                $task->setRestaurant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

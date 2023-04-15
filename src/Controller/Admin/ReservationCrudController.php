@@ -42,7 +42,10 @@ class ReservationCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('table.restaurant', 'Restauracja');
+        if ($pageName === 'index' || $pageName === 'detail') {
+            yield TextField::new('table.restaurant', 'Restauracja');
+        }
+
         yield AssociationField::new('table', 'Stolik');
         yield DateTimeField::new('beginsAt', 'Ważna od');
         yield DateTimeField::new('endsAt', 'Ważna do');
@@ -54,7 +57,10 @@ class ReservationCrudController extends AbstractCrudController
         }
 
         yield CollectionField::new('reservationProducts', 'Produkty')->useEntryCrudForm();
-        yield MoneyField::new('totalPrice', 'Cena razem')->setCurrency('PLN');
+
+        if ($pageName === 'index' || $pageName === 'detail') {
+            yield MoneyField::new('totalPrice', 'Cena razem')->setCurrency('PLN');
+        }
     }
 
     public function configureFilters(Filters $filters): Filters

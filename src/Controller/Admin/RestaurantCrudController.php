@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -43,6 +44,8 @@ class RestaurantCrudController extends AbstractCrudController
             ->setUploadDir('public/uploads/restaurants/')
             ->setBasePath('uploads/restaurants/');
         yield TextField::new('name', 'Nazwa');
+        yield TextEditorField::new('description', 'Opis')
+            ->setTemplatePath('admin/field/text_editor.html.twig');
         yield TextField::new('address', 'Adres');
         yield TextField::new('city', 'Miasto');
         yield TextField::new('postcode', 'Kod pocztowy');

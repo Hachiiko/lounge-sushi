@@ -65,7 +65,7 @@ class Table
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations->add($reservation);
-            $reservation->setTablee($this);
+            $reservation->setTable($this);
         }
 
         return $this;
@@ -75,8 +75,8 @@ class Table
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
-            if ($reservation->getTablee() === $this) {
-                $reservation->setTablee(null);
+            if ($reservation->getTable() === $this) {
+                $reservation->setTable(null);
             }
         }
 
