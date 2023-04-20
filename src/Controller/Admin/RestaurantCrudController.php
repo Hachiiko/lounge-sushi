@@ -50,8 +50,7 @@ class RestaurantCrudController extends AbstractCrudController
         yield TextField::new('city', 'Miasto');
         yield TextField::new('postcode', 'Kod pocztowy');
         yield TextField::new('phone', 'Numer telefonu');
-        yield AssociationField::new('owners', 'Właściciele')
-            ->setQueryBuilder(fn (QueryBuilder $queryBuilder) => $this->userRepository->addRoleCriteria($queryBuilder, User::ROLE_OWNER));
+        yield AssociationField::new('owner', 'Właściciel');
         yield AssociationField::new('employees', 'Pracownicy')
             ->setQueryBuilder(fn (QueryBuilder $queryBuilder) => $this->userRepository->addRoleCriteria($queryBuilder, User::ROLE_EMPLOYEE));
     }
