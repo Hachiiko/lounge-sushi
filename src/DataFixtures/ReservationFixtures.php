@@ -15,6 +15,22 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
     {
         $restaurants = $manager->getRepository(Restaurant::class)->findAll();
 
+        $firstNames = [
+            'Jan',
+            'Maciej',
+            'Andrzej',
+            'Stanisław',
+            'Piotr',
+        ];
+
+        $lastNames = [
+            'Kowalski',
+            'Nowak',
+            'Wiśniewski',
+            'Dąbrowski',
+            'Lewandowski',
+        ];
+
         foreach (range(1, 12) as $month) {
             foreach ($restaurants as $restaurant) {
                 $tables = $restaurant->getTables()->toArray();
@@ -33,6 +49,9 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
                         ->setDate((int) date('Y'), $month, random_int(1, 20));
 
                     $reservation = (new Reservation)
+                        ->setName($firstNames[array_rand($firstNames)] . ' ' . $lastNames[array_rand($lastNames)])
+                        ->setPhone('+48 123 123 123')
+                        ->setNumberOfPeople(random_int(1, 10))
                         ->setTable($table)
                         ->setBeginsAt($date)
                         ->setEndsAt($date->modify('+1 hour'))
