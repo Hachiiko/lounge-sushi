@@ -1,0 +1,10 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{% if ea.crud.currentAction == 'detail' %}
+    <a href="{{ field.customOptions.get('url') }}" target="_blank">
+        <img src="{{ field.value }}" alt="QR code with link to the menu" style="background-color: white">
+    </a>
+{% else %}
+    asdf
+{% endif %}

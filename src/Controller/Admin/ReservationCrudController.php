@@ -43,7 +43,7 @@ class ReservationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         if ($pageName === 'index' || $pageName === 'detail') {
-            yield TextField::new('table.restaurant', 'Restauracja');
+            yield TextField::new('restaurant', 'Restauracja');
         }
 
         yield AssociationField::new('table', 'Stolik');

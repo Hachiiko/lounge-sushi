@@ -15,8 +15,19 @@ class Reservation
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private ?string $name = null;
+
+    #[ORM\Column]
+    private ?string $phone = null;
+
+    #[ORM\Column]
+    private ?int $numberOfPeople = null;
+
+    #[ORM\ManyToOne]
+    private ?Restaurant $restaurant = null;
+
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Table $table = null;
 
     #[ORM\Column]
@@ -41,6 +52,42 @@ class Reservation
         return $this->id;
     }
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getNumberOfPeople(): ?int
+    {
+        return $this->numberOfPeople;
+    }
+
+    public function setNumberOfPeople(?int $numberOfPeople): self
+    {
+        $this->numberOfPeople = $numberOfPeople;
+
+        return $this;
+    }
+
     public function getTable(): ?Table
     {
         return $this->table;
@@ -55,7 +102,27 @@ class Reservation
 
     public function getRestaurant(): ?Restaurant
     {
-        return $this->table?->getRestaurant();
+        return $this->restaurant;
+    }
+
+    public function setRestaurant(?Restaurant $restaurant): self
+    {
+        $this->restaurant = $restaurant;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeImmutable
+    {
+        return $this->beginsAt;
+    }
+
+    public function setDate(\DateTimeImmutable $date): self
+    {
+        $this->beginsAt = $date;
+        $this->endsAt = (clone $date)->modify('+1 hour');
+
+        return $this;
     }
 
     public function getBeginsAt(): ?\DateTimeImmutable

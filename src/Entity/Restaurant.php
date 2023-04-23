@@ -60,6 +60,9 @@ class Restaurant
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $googleMapsEmbedCode = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -332,6 +335,18 @@ class Restaurant
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getGoogleMapsEmbedCode(): ?string
+    {
+        return $this->googleMapsEmbedCode;
+    }
+
+    public function setGoogleMapsEmbedCode(?string $googleMapsEmbedCode): self
+    {
+        $this->googleMapsEmbedCode = $googleMapsEmbedCode;
 
         return $this;
     }
