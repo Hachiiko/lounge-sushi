@@ -17,6 +17,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
@@ -47,6 +48,9 @@ class ReservationCrudController extends AbstractCrudController
         }
 
         yield AssociationField::new('table', 'Stolik');
+        yield TextField::new('name', 'Imię i nazwisko');
+        yield TextField::new('phone', 'Telefon');
+        yield NumberField::new('numberOfPeople', 'Ilość osób');
         yield DateTimeField::new('beginsAt', 'Ważna od');
         yield DateTimeField::new('endsAt', 'Ważna do');
 
