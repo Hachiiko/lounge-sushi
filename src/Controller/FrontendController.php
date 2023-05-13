@@ -27,8 +27,6 @@ class FrontendController extends AbstractController
             $reservation = $reservationForm->getData();
             $reservation->setRestaurant($restaurant);
 
-            dd($reservation);
-
             $reservationRepository->save($reservation, true);
 
             $this->addFlash('success', 'Rezerwacja została złożona. Oczekuj na telefon w celu jej potwierdzenia.');
